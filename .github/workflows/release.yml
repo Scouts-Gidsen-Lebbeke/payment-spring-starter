@@ -1,0 +1,11 @@
+name: payment-spring-boot-starter release
+run-name: payment-spring-boot-starter release - release ${{ inputs.RELEASE_VERSION }}
+on:
+  workflow_dispatch:
+    inputs:
+      RELEASE_VERSION:
+        description: 'Release version to be released'
+        required: true
+      NEXT_ITERATION_VERSION:
+        description: 'Next iteration version to be set after release'
+        required: true

@@ -1,6 +1,5 @@
 package be.sgl.payment.boot.providers.impl
 
-import be.sgl.payment.boot.configurations.MollieConfiguration
 import be.sgl.payment.boot.core.Customer
 import be.sgl.payment.boot.core.Payment
 import be.sgl.payment.boot.core.SimplifiedPaymentStatus
@@ -14,23 +13,14 @@ import be.woutschoovaerts.mollie.data.payment.PaymentMethod
 import be.woutschoovaerts.mollie.data.payment.PaymentRequest
 import be.woutschoovaerts.mollie.data.payment.PaymentStatus
 import be.woutschoovaerts.mollie.data.refund.RefundRequest
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
-import org.springframework.stereotype.Service
 import java.math.BigDecimal
-import java.util.*
+import java.util.Optional
 
-@Service
-@ConditionalOnBean(MollieConfiguration::class)
-class MollieCheckout : CheckoutProvider {
-
-    @Autowired
-    private lateinit var mollieApiClient: Client
-    @Value("\${spring.application.base-url}")
-    private lateinit var baseUrl: String
-    @Value("\${spring.application.public-base-url}")
-    private lateinit var publicBaseUrl: String
+class MollieCheckout(
+    private val mollieApiClient: Client,
+    private val baseUrl: String,
+    private val publicBaseUrl: String
+) : CheckoutProvider {
 
     override fun createRedirectUrl(payment: Payment, domain: String, payableId: Int?): String {
         return appendRequestParameters("$baseUrl/$domain/confirmation.html", "id" to payableId, "order_id" to payment.id)

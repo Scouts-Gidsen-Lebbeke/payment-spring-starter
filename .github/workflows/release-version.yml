@@ -1,0 +1,10 @@
+on:
+  workflow_call:
+    inputs:
+      RELEASE_VERSION:
+        description: 'Release version to be released'
+        required: true
+      NEXT_ITERATION_VERSION:
+        description: 'Next iteration version to be set after release'
+        required: true
+
